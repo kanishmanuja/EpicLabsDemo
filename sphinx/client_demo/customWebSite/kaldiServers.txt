@@ -1,0 +1,2 @@
+ws://localhost:8080/client/ws/speech
+ws://localhost:8080/client/ws/status

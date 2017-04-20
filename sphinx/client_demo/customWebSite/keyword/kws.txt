@@ -1,0 +1,9 @@
+hello epic
+order cbc
+order x-ray
+goto notes
+chart review
+goto plan
+goto rooming
+snapshot
+sign visit
