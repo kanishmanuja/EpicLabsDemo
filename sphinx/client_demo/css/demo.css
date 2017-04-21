@@ -76,6 +76,138 @@ button #buttonCallEpicCustomer {
 	padding: 1em;
 	margin:4em;
 	background: grey;
-	height: 13em;
+	height: 19em;
 	width: 14em;
+}
+
+
+#device, #devicetop, #screen {
+	-webkit-transition: all .4s;
+	-moz-transition: all .4s;
+	transition: all .4s;
+}
+
+#devices {
+	background-color: #73c9ad;
+	width:100%;
+height:100%;
+	padding: 2em 0 12em;
+	margin: 0;
+}
+
+#device {
+	margin: 6em auto 0.598em;
+	background-color: #e9eae4;
+	border:0.126em solid #fff;
+	border-radius: 1.512em;
+	width: 11.592em;
+	height: 23.058em;
+	padding:1.701em 0 0;
+	box-shadow: 0px 5px 0px #c5c3ba;
+}
+
+#device.ipad {
+	margin: 1em auto 0.598em;
+	border-radius: 1.512em;
+	width: 28.98em;
+	height: 38.178em;
+	padding:1.134em 0 0;
+	box-shadow: none;
+}
+
+#devicetop {
+	background-color: #aba99f;
+	width: 1.89em;
+	height: 0.315em;
+	border:0.126em solid #c5c3ba;
+	border-radius: 0.315em;
+	margin: 0 auto 0.756em;
+}
+
+#devicetop.ipad-camera {
+	width: 0.315em;
+	height: 0.315em;
+	border-radius: 0.315em;
+	margin: 0 auto 1.512em;
+	border: 0.189em solid #c5c3ba;
+}
+
+#screen {
+	background-color: #c5c3ba;
+	margin: 0 auto 0;
+	border: 0.189em solid #aba99f;
+	border-radius: 0.189em;
+	width:10.08em;
+	height:17.892em;
+}
+
+#screen.ipad-screen {
+	width:24.192em;
+	height:32.256em;
+}
+
+#button {
+	margin: 0.63em auto 0;
+	background-color: #c5c3ba;
+	width: 1.071em;
+	height: 1.071em;
+	border-radius: 50%;
+	padding: 0.567em;
+	cursor: hand;
+}
+
+#button:hover {
+	cursor: hand;
+}
+
+#button-square {
+	margin: 0 auto 0 0.063em;
+	width: 0.693em;
+	height: 0.693em;
+	border: 0.126em solid #e9eae4;
+	border-radius: 0.252em;
+}
+
+#homeButton{
+	position: relative;
+	top: -50px;
+}
+.btnCall {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+   display: inline-block;
+    font-size: 16px;
+    position: relative;
+}
+
+.btnCall:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+.btnCallEpicPos{
+    left: 5%;
+    top: 57%;
+}
+
+.btnCallNormalPos{
+	left: 1%;
+    top: 57%;
 }

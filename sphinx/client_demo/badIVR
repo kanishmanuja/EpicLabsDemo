@@ -1,0 +1,10 @@
+/*
+Bad IVR example
+*/
+function callBadIVR() {
+	    console.log("calling Epic");
+		responsiveVoice.speak("Welcome to Bad IVR");
+	     setTimeout(function() {
+		epicIVR_Identify();
+	}, 2250);
+}
