@@ -282,84 +282,7 @@ function epicIVR_Identify(iteration) {
 	epicIVR_WaitForAThing("To get started, please type or say your plan number.", 15000, planNumberRecieved);
 }
 
-var needsThing = false;
 
-function epicIVR_WaitForAThing(_prompt, promptLen, recievedCallback) {
-	cancelWaitingForSomething(); // force cancel service
-	console.log("WaitForAThing service: Initializing... for: " + recievedCallback.name);
-	needsThing = recievedCallback.name;
-	epicIVR_WaitForAThing_iter(0, _prompt, promptLen, recievedCallback);
-}
-
-function epicIVR_WaitForAThing_iter(iteration, _prompt, promptLen, recievedCallback) {
-	console.log("WaitForAThing service: current needsThing? " + needsThing);
-	if (needsThing != recievedCallback.name) {
-		console.log("WaitForAThing service: don't need " + recievedCallback.name + "! Not repeating prompt.");
-		return;
-	}
-	console.log("WaitForAthing service: current iteration for " + recievedCallback.name + " is: " + iteration);
-	if (iteration > 3) {
-		console.log("WaitForAThing service: did not recieve the thing. Sending to representative.");
-		epicIVR_error_speakToRep("");
-		return
-	}
-	
-	console.log("WaitForAThing service: speaking prompt for: " + recievedCallback.name);
-	responsiveVoice.speak(_prompt);
-	if (!waitingForSomething) {
-		console.log("WaitForAThing service: trigger waiting for thing. for: " + recievedCallback.name)
-		waitForSomething(recievedCallback);
-	}
-	
-	setTimeout(function() {
-		if (waitingForSomething = true) {
-			console.log("WaitForAThing service: trying to repeat prompt for: " + recievedCallback.name);
-			epicIVR_WaitForAThing_iter(iteration + 1, _prompt, promptLen, recievedCallback)
-		}
-	}, promptLen);
-}
-
-function epicIVR_recievedThatThing() {
-	needsThing = undefined;
-}
-
-var waitingForSomething;
-var waitingCallback;
-
-function waitForSomething(callback) {
-	console.log("WaitForAThing service: setting up waitForSomething service. for: " + callback.name);
-	if (waitingForSomething == true) {
-		console.log("Error! Already waiting on input.");
-		return;
-	}
-	waitingForSomething = true;
-	waitingCallback = callback;
-	
-	console.log("WaitForAThing service: starting speech recognition for: " + callback.name);
-	recognition.start();
-}
-
-function recievedSomething(digits) {
-	console.log("WaitForAThing service: recieved something! [" + digits + "]");
-	console.log("WaitForAThing service: force stopping speech recognition service. Currently waiting for: " + waitingCallback.name);
-	recognition.stop(); // force stop
-	if (waitingForSomething == false) {
-		console.log("Error! Woah there, we didn't think we were waiting for anything.");
-		return;
-	}
-	
-	epicIVR_recievedThatThing();
-	
-	waitingCallback(digits);
-	waitingForSomething = false;
-	waitingCallback = null;
-}
-
-function cancelWaitingForSomething() {
-	console.log("WaitForAThing service: canceling waitForSomething service.");
-	waitingForSomething = false;
-	waitingCallback = undefined;
-}
 
 var planInfo;
 
@@ -454,59 +377,6 @@ function SSN_recieved(digits) {
 	}
 }
 
-function epicIVR_Greet_Authenticated_Patient() {
-	responsiveVoice.speak("Welcome, " + planInfo.preferredName + " thank you for logging in. A nurse will be with you shortly.");
-	
-	setTimeout(function() {
-		responsiveVoice.speak("While you're waiting would you mind telling me what you're calling about?");
-	}, 5000);
-	setTimeout(function() {
-		responsiveVoice.speak("You can say something like I'd like to schedule an appointment.");
-	}, 8000);
-	
-	console.log("WaitForAThing service: Recording raw audio");
-	// record
-	setTimeout(function() {
-		// toggleListening();
-		var fullSentence = "";
-		recognition.onresult = function (event) {
-		  for (var i = event.resultIndex; i < event.results.length; ++i) {
-			if (event.results[i].isFinal) {
-				fullSentence += event.results[i][0].transcript
-			}
-		  }
-		  
-			document.getElementById('trans').value += fullSentence + "\n";
-			recievedSomething(fullSentence);
-			recognizeKeywords(fullSentence);
-		}
-		
-		recognition.start();
-	}, 12000);
-	
-	setTimeout(function() {
-		// toggleListening();
-		recognition.stop();
-	}, 19500);
-	
-	console.log("WaitForAThing service: finished recording raw audio");
-	
-	setTimeout(function() {
-		responsiveVoice.speak("Got it. It will just be a few moments before the next nurse is available.");
-	}, 20000);
-	
-	var audio = document.createElement('audio');
-	
-	setTimeout(function() {
-		audio.src = '7cdaf42a9e606f0c9bd782d56fc6-orig.wav'
-		audio.play();
-	}, 23000);
-	
-	setTimeout(function() {
-		audio.pause();
-	}, 34000);
-}
-
 var keyword = ["burn", "schedule", "Monday", "pain"];
 
 function recognizeKeywords(sentence) {
@@ -532,21 +402,33 @@ function setupIVRMenuEvents() {
 }
 
 
-var grammar = '#JSGF V1.0; grammar numbers; public <number> = one | two | three | four | five | six | seven | eight | nine | zero ;'
-var recognition = new webkitSpeechRecognition();
-var speechRecognitionList = new webkitSpeechGrammarList();
-speechRecognitionList.addFromString(grammar, 1);
-recognition.grammars = speechRecognitionList;
-recognition.onresult = function (event) {
-	if (event.results[0].isFinal) {
-      document.getElementById('trans').value += event.results[0][0].transcript.replace(/-|\s/g,"") + "\n";
-	  recievedSomething(event.results[0][0].transcript.replace(/-|\s/g,""));
-    }
-}
+//var grammar = '#JSGF V1.0; grammar numbers; public <number> = one | two | three | four | five | six | seven | eight | nine | zero ;'
+//var recognition = new webkitSpeechRecognition();
+//alert("here");
+//var speechRecognitionList = new webkitSpeechGrammarList();
+//speechRecognitionList.addFromString(grammar, 1);
+//recognition.grammars = speechRecognitionList;
+//recognition.onresult = function (event) {
+//	if (event.results[0].isFinal) {
+  //    document.getElementById('trans').value += event.results[0][0].transcript.replace(/-|\s/g,"") + "\n";
+	//  recievedSomething(event.results[0][0].transcript.replace(/-|\s/g,""));
+    //}/=
+//}
 
 
 $(document).ready(function() {
 	dictate.init();
+	grammar = '#JSGF V1.0; grammar numbers; public <number> = one | two | three | four | five | six | seven | eight | nine | zero ;'
+	recognition = new webkitSpeechRecognition();
+	recognition.onresult = function (event) {
+	console.log("Results are coming");
+	if (event.results[0].isFinal) {
+	 clearscreen();
+     document.getElementById('trans').value += event.results[0][0].transcript + "\n";
+     console.log("writing");
+	 recievedSomething(event.results[0][0].transcript); //.replace(/-|\s/g,"")
+    }
+	}
 
 	$("#servers").change(function() {
 		dictate.cancel();
