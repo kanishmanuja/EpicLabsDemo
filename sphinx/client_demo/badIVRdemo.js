@@ -50,8 +50,8 @@ function BadIVR_Reason_for_Call()
               console.log("Asking Reason...");
               responsiveVoice.speak("To get started, tell me what are you calling about?");
               setTimeout(function() {
-                             waitForSomething(SmartChoice);
-              }, 3500);;
+                             waitForSomething(BadIVR_Reason_for_Call_recieved);
+              }, 3000);;
               //epicIVR_WaitForAThing("To get started, tell me what are you calling about?", 200000, BadIVR_Reason_for_Call_recieved);
 }
  
@@ -83,9 +83,25 @@ function PitchCampaign(Info)
               responsiveVoice.speak("Great, I'll pass that along.");
               responsiveVoice.speak("All our Nurses are busy at the moment, while you wait, your chart indicates that you have been smoking regularly. Would you be interested in participating in our 'get help quitting' campaign?");
               setTimeout(function() {
-                             waitForSomething(AskOther);
+                             waitForSomething(RespondWithDate);
               }, 12000);
 }
+function RespondWithDate()
+{
+              responsiveVoice.speak("Great, The first slot open with our counselor is on Monday 3 PM at the Hatchry Hill Clinic, Say Yes to schedule an appointment?");
+                           setTimeout(function() {
+                             waitForSomething(apptScheduled);
+              }, 9000);
+}
+
+function apptScheduled()
+{
+              responsiveVoice.speak("You are all set for your appointment on Monday 3:00 PM at the Hatchry Hill Clinic.");
+              setTimeout(function() {
+                             AskOther();
+              }, 6000);
+}
+
 function AskOther()
 {
               console.log("AskOther");
@@ -132,9 +148,34 @@ function automatedCall()
 
 function outgoingIAC()
 {
-  console.log("HardCode the hell out");
+  console.log("Outgoing");
+  responsiveVoice.speak("Hi Jon, I am calling from the Hatchry Hill Clinic, I have some questions for you");
+  responsiveVoice.speak("To confirm your identity, please tell me your PIN.");
+  setTimeout( function(){
+            waitForSomething(Authenticate);
+        },7000);
+}
+
+function Authenticate()
+{
+  responsiveVoice.speak("Do you have sufficient nicotine patches till your next appointment?");
+    setTimeout( function(){
+            waitForSomething(Frequency);
+        },4000);
 } 
- 
+
+function Frequency()
+{
+  responsiveVoice.speak("How many cigarettes have you smoked in last week");
+  setTimeout( function(){
+            waitForSomething(Thanks);
+        },3000);
+}
+
+function Thanks()
+{
+   responsiveVoice.speak("Great, that is all I had for you today. Thanks and have a good rest of the day");
+}
  
  
  
@@ -152,10 +193,7 @@ function epicIVR_recievedThatThing() {
  
 function waitForSomething(callback) {
               console.log("WaitForAThing service: setting up waitForSomething service. for: " + callback.name);
-              if (waitingForSomething == true) {
-                             console.log("Error! Already waiting on input.");
-                             return;
-              }
+              
               waitingForSomething = true;
               waitingCallback = callback;
  
